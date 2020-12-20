@@ -1,12 +1,14 @@
 # Basic UNIX Firewall
 
-Unix shell script to set up a basic firewall that allows emails and HTTPS while constantly logging all activities.
+Unix shell script to set up a basic firewall that allows emails and HTTPS connections while constantly logging all activities.
 
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine. 
 
 ### Prerequisites
+
+This project runs on Linux/UNIX Operating System.
 
 The iptables command is used in this project. Normally iptables is pre-installed in most UNIX distributions. It can be confirmed by running the following shell command:
 
@@ -24,41 +26,48 @@ sudo apt-get install iptables
 
 The project contains UNIX shell script [firewall.sh](firewall.sh) that can be directly run to set up the firewall without any additional installation. 
 
-1) Download the repo by clicking "Download ZIP" button near the top right corner or by running the following shell command:
+1) Download the repo by clicking the download button or by running the following shell command:
 
 ```
 git clone https://github.com/technagoraphobe/firewall.git
 ```
 
-2) Unzip the downloaded folder either from the graphical interface or by running the following shell command from the directory containing the zip folder:
+2) Unzip the downloaded zip folder if necessary either from the graphical interface or by running the following shell command from the directory containing the zip folder:
 
 ```
 unzip <zip_folder_name>.zip -d <destination_for_extracted_files>
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
 
 ## Setting up the firewall
 
-Explain how to run the automated tests for this system
+You can set up the firewall on your local device by following the below steps:
+
+### Update the device IP address
+
+The script requires the device's IP address to function satisfactorily. In order to avoid issues, replace the current placeholder on the first line of the script with your device's IP address. 
+
+```
+YOUR_HOSTNAME=<device_IP_address>
+```
 
 ### Make the script executable
 
-Explain what these tests test and why
+Run the following command from the script's directory before executing the script allow executing the script:
 
 ```
 chmod +x firewall.sh
 ```
 
-### 
+### Activate iptables
 
-For Ubuntu users, run the following command and restart your system:
+Ubuntu users may run the following command and restart your system:
 
 ```
 ufw disable
 ```
 
-Users using other versions of UNIX can run the following command:
+Users using other versions of UNIX may run the following command:
 
 ```
 service iptables start
@@ -66,30 +75,38 @@ service iptables start
 
 ### Run the script
 
-Run the executable shell script using command
+Run the executable shell script using command:
 
 ```
 sudo ./firewall.sh
 ```
 
 ## Save the firewall settings
-Some additional steps are required to save the firewall configuration so they persist even after a reboot or shutdown. These steps differ for Ubuntu as compared to other UNIX distros.
+Some additional steps are required to save the firewall rules so they persist even after a reboot or shutdown. 
 
-### Ubuntu users
-Ubuntu users need to export the new configuration to an external file only once. 
-Save the firewall configuration to an external file using the following command:
+### Debian/Ubuntu users
+Ubuntu users need to export the new configuration to an external file only once. This export may be used to restore the rules at the start of every session.
 
-```
-iptables-save < 
-```
-
-Restore the firewall configuration manually after each startup
+To save the firewall rules to an external file, use the following command:
 
 ```
-iptables-restore > 
+For IPv4
+iptables-save > /etc/iptables/rules.v4
+
+For IPv6
+iptables-save > /etc/iptables/rules.v6
 ```
 
-### Other UNIX users
+To restore the firewall rules manually after each startup, use the following command:
+
+```
+For IPv4
+iptables-restore < /etc/iptables/rules.v4
+For IPv6
+iptables-restore < /etc/iptables/rules.v6
+```
+
+### RHEL/CentOS users
 Run the following command to permanently save the iptables configuration, so that it persists even after a reboot or shutdown:
 
 ```
@@ -103,9 +120,9 @@ service iptables save
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
 ## Acknowledgments
 
-* "Building a Professional Firewall with Linux and Iptables" - Daniel Messlier ()
-
+* ["Building a Professional Firewall with Linux and Iptables" - Daniel Messlier](https://danielmiessler.com/blog/professional-firewall-iptables/)
+* ["Saving Iptables Firewall Rules Permanently" - Thomas Krenn](https://www.thomas-krenn.com/en/wiki/Saving_Iptables_Firewall_Rules_Permanently)
